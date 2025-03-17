@@ -23,6 +23,7 @@ import {
   Template,
   TEMPLATES
 } from "@/lib/pattern-utils";
+import GradientSelector from "./GradientSelector";
 
 const OGImageGenerator = () => {
   const [showSidebar, setShowSidebar] = useState(true);
@@ -31,6 +32,7 @@ const OGImageGenerator = () => {
   const [subtitle, setSubtitle] = useState("Generate perfect social media previews in seconds");
   const [logo, setLogo] = useState<string | undefined>(undefined);
   const [activeTab, setActiveTab] = useState("design");
+  const [designTab, setDesignTab] = useState("pattern");
   const previewRef = useRef<HTMLDivElement>(null);
   
   // Generate pattern URL
@@ -88,10 +90,57 @@ const OGImageGenerator = () => {
         {/* Main editor + preview area */}
         <div className="flex-1 p-6 overflow-y-auto">
           <div className="max-w-screen-xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Editor - Left panel on desktop, toggleable on mobile */}
+              <div className={`${!showSidebar && 'hidden'} lg:block lg:col-span-5`}>
+                <div className="glass-morphism rounded-lg border border-white/10 mb-6 overflow-hidden">
+                  <Tabs value={activeTab} onValueChange={setActiveTab}>
+                    <TabsList className="w-full grid grid-cols-3">
+                      <TabsTrigger value="design">Design</TabsTrigger>
+                      <TabsTrigger value="content">Content</TabsTrigger>
+                      <TabsTrigger value="templates">Templates</TabsTrigger>
+                    </TabsList>
+                    
+                    <div className="p-6">
+                      <TabsContent value="design" className="mt-0">
+                        <Tabs value={designTab} onValueChange={setDesignTab}>
+                          <TabsList className="w-full grid grid-cols-2 mb-4">
+                            <TabsTrigger value="pattern">Patterns</TabsTrigger>
+                            <TabsTrigger value="gradient">Gradients</TabsTrigger>
+                          </TabsList>
+                          
+                          <TabsContent value="pattern" className="mt-0">
+                            <PatternSelector pattern={pattern} onChange={setPattern} />
+                          </TabsContent>
+                          
+                          <TabsContent value="gradient" className="mt-0">
+                            <GradientSelector pattern={pattern} onChange={setPattern} />
+                          </TabsContent>
+                        </Tabs>
+                      </TabsContent>
+                      
+                      <TabsContent value="content" className="mt-0">
+                        <ContentEditor
+                          title={title}
+                          subtitle={subtitle}
+                          logo={logo}
+                          onTitleChange={setTitle}
+                          onSubtitleChange={setSubtitle}
+                          onLogoChange={setLogo}
+                        />
+                      </TabsContent>
+                      
+                      <TabsContent value="templates" className="mt-0">
+                        <TemplateSelector onSelectTemplate={handleTemplateSelect} />
+                      </TabsContent>
+                    </div>
+                  </Tabs>
+                </div>
+              </div>
+              
               {/* Live preview area - Always visible */}
-              <div>
-                <div className="mb-4 sticky top-0">
+              <div className="lg:col-span-7">
+                <div className="mb-6 sticky top-0">
                   <h2 className="text-lg font-medium mb-4">Preview</h2>
                   <div 
                     ref={previewRef}
@@ -113,48 +162,53 @@ const OGImageGenerator = () => {
                   </div>
                 </div>
                 
-                {/* Platform previews */}
-                <PlatformPreview 
-                  canvasRef={previewRef}
-                  pattern={patternUrl}
-                  background={pattern.background}
-                  title={title}
-                  subtitle={subtitle}
-                  logo={logo}
-                />
-              </div>
-              
-              {/* Editor - Side panel on desktop, toggleable on mobile */}
-              <div className={`${!showSidebar && 'hidden'} lg:block`}>
-                <div className="glass-morphism rounded-lg border border-white/10 mb-6 overflow-hidden">
-                  <Tabs value={activeTab} onValueChange={setActiveTab}>
-                    <TabsList className="w-full grid grid-cols-3">
-                      <TabsTrigger value="design">Design</TabsTrigger>
-                      <TabsTrigger value="content">Content</TabsTrigger>
-                      <TabsTrigger value="templates">Templates</TabsTrigger>
-                    </TabsList>
+                {/* Platform previews - Grid layout */}
+                <div className="space-y-4 animate-slide-up">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-base font-medium">Platform Previews</h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <PlatformPreview 
+                      canvasRef={previewRef}
+                      pattern={patternUrl}
+                      background={pattern.background}
+                      title={title}
+                      subtitle={subtitle}
+                      logo={logo}
+                      platform="twitter"
+                    />
                     
-                    <div className="p-6">
-                      <TabsContent value="design" className="mt-0">
-                        <PatternSelector pattern={pattern} onChange={setPattern} />
-                      </TabsContent>
-                      
-                      <TabsContent value="content" className="mt-0">
-                        <ContentEditor
-                          title={title}
-                          subtitle={subtitle}
-                          logo={logo}
-                          onTitleChange={setTitle}
-                          onSubtitleChange={setSubtitle}
-                          onLogoChange={setLogo}
-                        />
-                      </TabsContent>
-                      
-                      <TabsContent value="templates" className="mt-0">
-                        <TemplateSelector onSelectTemplate={handleTemplateSelect} />
-                      </TabsContent>
-                    </div>
-                  </Tabs>
+                    <PlatformPreview 
+                      canvasRef={previewRef}
+                      pattern={patternUrl}
+                      background={pattern.background}
+                      title={title}
+                      subtitle={subtitle}
+                      logo={logo}
+                      platform="linkedin"
+                    />
+                    
+                    <PlatformPreview 
+                      canvasRef={previewRef}
+                      pattern={patternUrl}
+                      background={pattern.background}
+                      title={title}
+                      subtitle={subtitle}
+                      logo={logo}
+                      platform="facebook"
+                    />
+                    
+                    <PlatformPreview 
+                      canvasRef={previewRef}
+                      pattern={patternUrl}
+                      background={pattern.background}
+                      title={title}
+                      subtitle={subtitle}
+                      logo={logo}
+                      platform="discord"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

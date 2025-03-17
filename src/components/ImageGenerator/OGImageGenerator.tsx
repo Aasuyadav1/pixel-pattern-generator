@@ -86,6 +86,14 @@ const OGImageGenerator = () => {
           </div>
         </header>
 
+        {/* Template Carousel - Full Width */}
+        <div className="p-6 pb-0">
+          <div className="max-w-screen-xl mx-auto">
+            <h2 className="text-lg font-medium mb-4">Templates</h2>
+            <TemplateSelector onSelectTemplate={handleTemplateSelect} />
+          </div>
+        </div>
+
         {/* Main editor + preview area */}
         <div className="flex-1 p-6 overflow-y-auto">
           <div className="max-w-screen-xl mx-auto">
@@ -94,10 +102,9 @@ const OGImageGenerator = () => {
               <div className={`${!showSidebar && 'hidden'} lg:block lg:col-span-5`}>
                 <div className="glass-morphism rounded-lg border border-white/10 mb-6 overflow-hidden">
                   <Tabs value={activeTab} onValueChange={setActiveTab}>
-                    <TabsList className="w-full grid grid-cols-3">
+                    <TabsList className="w-full grid grid-cols-2">
                       <TabsTrigger value="design">Design</TabsTrigger>
                       <TabsTrigger value="content">Content</TabsTrigger>
-                      <TabsTrigger value="templates">Templates</TabsTrigger>
                     </TabsList>
                     
                     <div className="p-6">
@@ -115,10 +122,6 @@ const OGImageGenerator = () => {
                           onSubtitleChange={setSubtitle}
                           onLogoChange={setLogo}
                         />
-                      </TabsContent>
-                      
-                      <TabsContent value="templates" className="mt-0">
-                        <TemplateSelector onSelectTemplate={handleTemplateSelect} />
                       </TabsContent>
                     </div>
                   </Tabs>
@@ -149,11 +152,11 @@ const OGImageGenerator = () => {
                   </div>
                 </div>
                 
-                {/* Platform previews - Grid layout */}
+                {/* Platform previews - Full width grid layout */}
                 <div className="space-y-4 animate-slide-up">
                   <h3 className="text-base font-medium mb-3">Platform Previews</h3>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                     <PlatformPreview 
                       canvasRef={previewRef}
                       pattern={patternUrl}

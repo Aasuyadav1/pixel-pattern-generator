@@ -1,4 +1,3 @@
-
 // Pattern types
 export type PatternType = 'grid' | 'dots' | 'graph' | 'diagonal' | 'honeycomb' | 'noise';
 
@@ -233,6 +232,126 @@ export const TEMPLATES: Template[] = [
     content: {
       title: 'Geometric Patterns',
       subtitle: 'Modern and architectural'
+    }
+  },
+  {
+    id: 'vibrant',
+    name: 'Vibrant',
+    pattern: {
+      type: 'diagonal',
+      color: '#ffffff',
+      opacity: 0.1,
+      scale: 20,
+      background: 'linear-gradient(90deg, #FF416C 0%, #FF4B2B 100%)'
+    },
+    content: {
+      title: 'Vibrant & Energetic',
+      subtitle: 'Stand out from the crowd'
+    }
+  },
+  {
+    id: 'ocean',
+    name: 'Ocean',
+    pattern: {
+      type: 'dots',
+      color: '#ffffff',
+      opacity: 0.12,
+      scale: 18,
+      background: 'linear-gradient(90deg, #4b6cb7 0%, #182848 100%)'
+    },
+    content: {
+      title: 'Deep Ocean Theme',
+      subtitle: 'Calming and professional'
+    }
+  },
+  {
+    id: 'purple-haze',
+    name: 'Purple Haze',
+    pattern: {
+      type: 'noise',
+      color: '#ffffff',
+      opacity: 0.07,
+      scale: 30,
+      background: 'linear-gradient(225deg, #FF057C 0%, #8D0B93 50%, #321575 100%)'
+    },
+    content: {
+      title: 'Purple Haze Effect',
+      subtitle: 'Creative and distinctive'
+    }
+  },
+  {
+    id: 'fresh',
+    name: 'Fresh',
+    pattern: {
+      type: 'grid',
+      color: '#ffffff',
+      opacity: 0.08,
+      scale: 15,
+      background: 'linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%)'
+    },
+    content: {
+      title: 'Fresh & Modern Look',
+      subtitle: 'Bright and optimistic design'
+    }
+  },
+  {
+    id: 'midnight',
+    name: 'Midnight',
+    pattern: {
+      type: 'honeycomb',
+      color: '#4338CA',
+      opacity: 0.15,
+      scale: 25,
+      background: 'linear-gradient(90deg, #0f0c29 0%, #302b63 50%, #24243e 100%)'
+    },
+    content: {
+      title: 'Midnight Theme',
+      subtitle: 'Elegant and mysterious'
+    }
+  },
+  {
+    id: 'sunset',
+    name: 'Sunset',
+    pattern: {
+      type: 'dots',
+      color: '#ffffff',
+      opacity: 0.12,
+      scale: 20,
+      background: 'linear-gradient(90deg, #f12711 0%, #f5af19 100%)'
+    },
+    content: {
+      title: 'Sunset Vibes',
+      subtitle: 'Warm and inviting'
+    }
+  },
+  {
+    id: 'monochrome',
+    name: 'Monochrome',
+    pattern: {
+      type: 'grid',
+      color: '#ffffff',
+      opacity: 0.07,
+      scale: 15,
+      background: '#1A1A1A'
+    },
+    content: {
+      title: 'Monochrome Design',
+      subtitle: 'Timeless and elegant'
+    }
+  },
+  {
+    id: 'teal-delight',
+    name: 'Teal Delight',
+    pattern: {
+      type: 'diagonal',
+      color: '#ffffff',
+      opacity: 0.1,
+      scale: 25,
+      background: 'linear-gradient(90deg, #8360c3 0%, #2ebf91 100%)'
+    },
+    content: {
+      title: 'Teal Delight Theme',
+      subtitle: 'Fresh and professional'
     }
   }
 ];

@@ -32,7 +32,6 @@ const OGImageGenerator = () => {
   const [subtitle, setSubtitle] = useState("Generate perfect social media previews in seconds");
   const [logo, setLogo] = useState<string | undefined>(undefined);
   const [activeTab, setActiveTab] = useState("design");
-  const [designTab, setDesignTab] = useState("pattern");
   const previewRef = useRef<HTMLDivElement>(null);
   
   // Generate pattern URL
@@ -102,21 +101,9 @@ const OGImageGenerator = () => {
                     </TabsList>
                     
                     <div className="p-6">
-                      <TabsContent value="design" className="mt-0">
-                        <Tabs value={designTab} onValueChange={setDesignTab}>
-                          <TabsList className="w-full grid grid-cols-2 mb-4">
-                            <TabsTrigger value="pattern">Patterns</TabsTrigger>
-                            <TabsTrigger value="gradient">Gradients</TabsTrigger>
-                          </TabsList>
-                          
-                          <TabsContent value="pattern" className="mt-0">
-                            <PatternSelector pattern={pattern} onChange={setPattern} />
-                          </TabsContent>
-                          
-                          <TabsContent value="gradient" className="mt-0">
-                            <GradientSelector pattern={pattern} onChange={setPattern} />
-                          </TabsContent>
-                        </Tabs>
+                      <TabsContent value="design" className="mt-0 space-y-6">
+                        <PatternSelector pattern={pattern} onChange={setPattern} />
+                        <GradientSelector pattern={pattern} onChange={setPattern} />
                       </TabsContent>
                       
                       <TabsContent value="content" className="mt-0">
@@ -164,11 +151,9 @@ const OGImageGenerator = () => {
                 
                 {/* Platform previews - Grid layout */}
                 <div className="space-y-4 animate-slide-up">
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-base font-medium">Platform Previews</h3>
-                  </div>
+                  <h3 className="text-base font-medium mb-3">Platform Previews</h3>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <PlatformPreview 
                       canvasRef={previewRef}
                       pattern={patternUrl}

@@ -38,6 +38,56 @@ export const PRESET_GRADIENTS = [
   'linear-gradient(90deg, #1D2B64 0%, #F8CDDA 100%)',
 ];
 
+// Preset solid colors
+export const PRESET_COLORS = [
+  '#000000', // Black
+  '#1A1A1A', // Dark Gray
+  '#2C2C2C', // Charcoal
+  '#3B3B3B', // Dark Slate
+  '#0F172A', // Slate 900
+  '#1E293B', // Slate 800
+  '#334155', // Slate 700
+  '#1E40AF', // Blue 800
+  '#1D4ED8', // Blue 700
+  '#2563EB', // Blue 600
+  '#4338CA', // Indigo 700
+  '#3730A3', // Indigo 800
+  '#7C3AED', // Violet 600
+  '#6D28D9', // Violet 700
+  '#5B21B6', // Violet 800
+  '#9333EA', // Purple 600
+  '#7E22CE', // Purple 700
+  '#6B21A8', // Purple 800
+  '#BE185D', // Pink 700
+  '#DB2777', // Pink 600
+  '#EC4899', // Pink 500
+  '#E11D48', // Rose 600
+  '#F43F5E', // Rose 500
+  '#EF4444', // Red 500
+  '#DC2626', // Red 600
+  '#B91C1C', // Red 700
+  '#EA580C', // Orange 600
+  '#F97316', // Orange 500
+  '#F59E0B', // Amber 500
+  '#D97706', // Amber 600
+  '#92400E', // Amber 800
+  '#A16207', // Yellow 800
+  '#CA8A04', // Yellow 700
+  '#FACC15', // Yellow 400
+  '#4D7C0F', // Lime 800
+  '#65A30D', // Lime 700
+  '#84CC16', // Lime 500
+  '#15803D', // Green 700
+  '#16A34A', // Green 600
+  '#22C55E', // Green 500
+  '#0F766E', // Teal 700
+  '#0D9488', // Teal 600
+  '#14B8A6', // Teal 500
+  '#0E7490', // Cyan 700
+  '#0891B2', // Cyan 600
+  '#06B6D4', // Cyan 500
+];
+
 // Helper function to generate a random gradient
 export const getRandomGradient = (): string => {
   const randomIndex = Math.floor(Math.random() * PRESET_GRADIENTS.length);

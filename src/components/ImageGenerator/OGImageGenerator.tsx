@@ -17,6 +17,7 @@ import ContentEditor from "./ContentEditor";
 import PlatformPreview from "./PlatformPreview";
 import TemplateSelector from "./TemplateSelector";
 import WebsiteUrlGenerator from "./WebsiteUrlGenerator";
+import ThemeSwitcher from "./ThemeSwitcher";
 import { 
   PatternSettings, 
   defaultPatternSettings, 
@@ -83,6 +84,7 @@ const OGImageGenerator = () => {
           </div>
           
           <div className="flex items-center gap-3">
+            <ThemeSwitcher />
             <Button
               variant="outline"
               size="sm"
@@ -100,14 +102,6 @@ const OGImageGenerator = () => {
           <div className="max-w-screen-xl mx-auto">
             <h2 className="text-lg font-medium mb-4">Templates</h2>
             <TemplateSelector onSelectTemplate={handleTemplateSelect} />
-          </div>
-        </div>
-
-        {/* Website URL Generator */}
-        <div className="p-6 pt-3 pb-0">
-          <div className="max-w-screen-xl mx-auto">
-            <h2 className="text-lg font-medium mb-4">Quick Content Generator</h2>
-            <WebsiteUrlGenerator onContentGenerated={handleWebsiteContentGenerated} />
           </div>
         </div>
 
@@ -130,7 +124,8 @@ const OGImageGenerator = () => {
                         <GradientSelector pattern={pattern} onChange={setPattern} />
                       </TabsContent>
                       
-                      <TabsContent value="content" className="mt-0">
+                      <TabsContent value="content" className="mt-0 space-y-6">
+                        <WebsiteUrlGenerator onContentGenerated={handleWebsiteContentGenerated} />
                         <ContentEditor
                           title={title}
                           subtitle={subtitle}

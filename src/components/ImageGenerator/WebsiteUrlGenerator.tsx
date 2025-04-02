@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Globe, ArrowRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -68,38 +67,37 @@ const WebsiteUrlGenerator = ({ onContentGenerated }: WebsiteUrlGeneratorProps) =
   };
 
   return (
-    <Card className="border-white/10 overflow-hidden animate-fade-in">
-      <CardContent className="p-4">
-        <div className="flex flex-col sm:flex-row gap-3">
-          <div className="relative flex-1">
-            <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              className="pl-9 glass-morphism w-full"
-              placeholder="Enter website URL (e.g., https://example.com)"
-            />
-          </div>
-          <Button 
-            onClick={handleGenerate}
-            disabled={loading || !url}
-            className="gap-2"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Generating...
-              </>
-            ) : (
-              <>
-                Generate Content
-                <ArrowRight className="h-4 w-4" />
-              </>
-            )}
-          </Button>
+    <div className="space-y-2 mb-6">
+      <h3 className="text-sm font-medium mb-2">Quick Content Generator</h3>
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Input
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            className="pl-9 glass-morphism w-full"
+            placeholder="Enter website URL (e.g., https://example.com)"
+          />
         </div>
-      </CardContent>
-    </Card>
+        <Button 
+          onClick={handleGenerate}
+          disabled={loading || !url}
+          className="gap-2"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Generating...
+            </>
+          ) : (
+            <>
+              Generate
+              <ArrowRight className="h-4 w-4" />
+            </>
+          )}
+        </Button>
+      </div>
+    </div>
   );
 };
 

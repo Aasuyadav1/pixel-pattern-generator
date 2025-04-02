@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -39,8 +38,18 @@ const OGImageGenerator = () => {
   // Generate pattern URL
   const patternUrl = generatePatternUrl(pattern);
 
+  // Handle pattern changes separately to preserve background
+  const handlePatternChange = (updatedPattern: PatternSettings) => {
+    setPattern(updatedPattern);
+  };
+
   const handleTemplateSelect = (template: Template) => {
-    setPattern(template.pattern);
+    // Apply template settings
+    setPattern({
+      ...template.pattern,
+      // If the pattern already had a background, keep it
+      background: pattern.background || template.pattern.background
+    });
     setTitle(template.content.title);
     setSubtitle(template.content.subtitle);
     setLogo(template.content.logo);
@@ -120,8 +129,8 @@ const OGImageGenerator = () => {
                     
                     <div className="p-6">
                       <TabsContent value="design" className="mt-0 space-y-6">
-                        <PatternSelector pattern={pattern} onChange={setPattern} />
-                        <GradientSelector pattern={pattern} onChange={setPattern} />
+                        <PatternSelector pattern={pattern} onChange={handlePatternChange} />
+                        <GradientSelector pattern={pattern} onChange={handlePatternChange} />
                       </TabsContent>
                       
                       <TabsContent value="content" className="mt-0 space-y-6">
@@ -150,6 +159,8 @@ const OGImageGenerator = () => {
                     style={{ 
                       backgroundImage: patternUrl,
                       background: pattern.background,
+                      backgroundBlendMode: 'normal',
+                      backgroundSize: `${pattern.scale * 2}px, cover`,
                     } as React.CSSProperties}
                   >
                     <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center">

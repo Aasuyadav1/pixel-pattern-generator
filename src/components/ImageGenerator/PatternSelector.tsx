@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PatternSettings, PatternType, generatePatternUrl } from "@/lib/pattern-utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
@@ -15,6 +14,10 @@ interface PatternSelectorProps {
 
 const PatternSelector = ({ pattern, onChange }: PatternSelectorProps) => {
   const [currentPattern, setCurrentPattern] = useState<PatternSettings>(pattern);
+
+  useEffect(() => {
+    setCurrentPattern(pattern);
+  }, [pattern]);
 
   const handlePatternChange = (type: PatternType) => {
     const updatedPattern = { ...currentPattern, type };
@@ -65,7 +68,7 @@ const PatternSelector = ({ pattern, onChange }: PatternSelectorProps) => {
       </div>
 
       <div className="glass-morphism rounded-lg p-4">
-        <Tabs defaultValue="grid" className="w-full" onValueChange={(value) => handlePatternChange(value as PatternType)}>
+        <Tabs defaultValue={currentPattern.type} value={currentPattern.type} className="w-full" onValueChange={(value) => handlePatternChange(value as PatternType)}>
           <TabsList className="grid grid-cols-6 w-full mb-4">
             <TabsTrigger value="grid" className="flex flex-col items-center gap-1.5 p-2">
               <Grid className="h-4 w-4" />

@@ -44,10 +44,6 @@ const PlatformPreview = memo(({
         return;
       }
       
-      // Draw background with pattern
-      const img = new Image();
-      const div = canvasRef.current;
-      
       // First, draw the background
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, width, height);
@@ -171,7 +167,7 @@ const PlatformPreview = memo(({
         }
         
         // Extract pattern from the computed style
-        const computedStyle = window.getComputedStyle(div);
+        const computedStyle = window.getComputedStyle(canvasRef.current);
         const bgImage = computedStyle.backgroundImage;
         
         // If we have a pattern
@@ -223,10 +219,6 @@ const PlatformPreview = memo(({
     toast.success(`${label} image downloaded`);
   };
 
-  // Get backgroundImage from the canvasRef if available
-  const divBackgroundImage = canvasRef.current?.getAttribute('data-background-image');
-  const backgroundImageToUse = backgroundImage || divBackgroundImage;
-
   return (
     <Card className="border-white/10 overflow-hidden h-full">
       <div className="glass-morphism p-4 flex flex-col items-center gap-4 h-full">
@@ -251,14 +243,14 @@ const PlatformPreview = memo(({
           <div 
             className="aspect-[1200/630] w-full relative flex items-center justify-center"
             style={{ 
-              backgroundImage: backgroundImageToUse ? `url(${backgroundImageToUse})` : pattern,
-              background: backgroundImageToUse ? 'rgba(0,0,0,0.6)' : background,
-              backgroundSize: 'cover',
+              background: background,
+              backgroundImage: backgroundImage ? `url(${backgroundImage})` : pattern,
+              backgroundSize: backgroundImage ? 'cover' : `${currentPattern?.scale * 2}px`, 
               backgroundPosition: 'center',
-              backgroundBlendMode: backgroundImageToUse ? 'darken' : 'normal',
+              backgroundBlendMode: backgroundImage ? 'darken' : 'normal',
             } as React.CSSProperties}
           >
-            {backgroundImageToUse && (
+            {backgroundImage && (
               <div className="absolute inset-0 bg-black/60"></div>
             )}
             <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">

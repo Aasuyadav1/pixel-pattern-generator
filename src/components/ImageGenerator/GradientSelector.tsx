@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PatternSettings } from "@/lib/pattern-utils";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -15,11 +15,38 @@ interface GradientSelectorProps {
 }
 
 const GradientSelector = ({ pattern, onChange }: GradientSelectorProps) => {
+  // Initialize state with current values from props
   const [gradientAngle, setGradientAngle] = useState(135);
   const [colorStart, setColorStart] = useState("#3B82F6");
   const [colorEnd, setColorEnd] = useState("#8B5CF6");
+  
+  // Update local state when pattern changes
+  useEffect(() => {
+    // Try to extract gradient values if pattern has a linear gradient
+    if (pattern.background && pattern.background.includes('linear-gradient')) {
+      try {
+        const angleMatch = pattern.background.match(/linear-gradient\((\d+)deg/);
+        if (angleMatch && angleMatch[1]) {
+          setGradientAngle(parseInt(angleMatch[1]));
+        }
+        
+        const colorsMatch = pattern.background.match(/linear-gradient\(\d+deg,\s*([^,]+),\s*([^)]+)/);
+        if (colorsMatch) {
+          if (colorsMatch[1] && !colorsMatch[1].includes('%')) {
+            setColorStart(colorsMatch[1].trim());
+          }
+          if (colorsMatch[2] && !colorsMatch[2].includes('%')) {
+            setColorEnd(colorsMatch[2].trim());
+          }
+        }
+      } catch (e) {
+        console.error("Failed to parse gradient:", e);
+      }
+    }
+  }, [pattern.background]);
 
   const handleGradientSelect = (gradient: string) => {
+    // Only update the background property, preserving all other pattern properties
     const updatedPattern = { ...pattern, background: gradient };
     onChange(updatedPattern);
   };

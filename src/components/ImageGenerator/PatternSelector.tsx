@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { PatternSettings, PatternType, generatePatternUrl } from "@/lib/pattern-utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,6 +21,7 @@ const PatternSelector = ({ pattern, onChange }: PatternSelectorProps) => {
   }, [pattern]);
 
   const handlePatternChange = (type: PatternType) => {
+    // Preserve the existing background when changing pattern type
     const updatedPattern = { ...currentPattern, type };
     setCurrentPattern(updatedPattern);
     onChange(updatedPattern);
@@ -43,8 +45,11 @@ const PatternSelector = ({ pattern, onChange }: PatternSelectorProps) => {
     onChange(updatedPattern);
   };
 
+  // Generate a pattern URL for preview that doesn't include the background
+  const patternUrl = generatePatternUrl(currentPattern);
+
   const patternPreviewStyle = {
-    backgroundImage: generatePatternUrl(currentPattern),
+    backgroundImage: patternUrl,
     backgroundSize: `${currentPattern.scale * 2}px`,
     background: currentPattern.background,
   };

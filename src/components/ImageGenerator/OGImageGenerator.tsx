@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -38,13 +39,13 @@ const OGImageGenerator = () => {
   // Generate pattern URL
   const patternUrl = generatePatternUrl(pattern);
 
-  // Handle pattern changes separately to preserve background
+  // Handle pattern changes - only update the specific properties that changed
   const handlePatternChange = (updatedPattern: PatternSettings) => {
     setPattern(updatedPattern);
   };
 
   const handleTemplateSelect = (template: Template) => {
-    // Apply template settings
+    // Apply template settings but preserve the background if it was already customized
     setPattern({
       ...template.pattern,
       // If the pattern already had a background, keep it
@@ -188,6 +189,7 @@ const OGImageGenerator = () => {
                       subtitle={subtitle}
                       logo={logo}
                       platform="twitter"
+                      patternScale={pattern.scale}
                     />
                     
                     <PlatformPreview 
@@ -198,6 +200,7 @@ const OGImageGenerator = () => {
                       subtitle={subtitle}
                       logo={logo}
                       platform="linkedin"
+                      patternScale={pattern.scale}
                     />
                     
                     <PlatformPreview 
@@ -208,6 +211,7 @@ const OGImageGenerator = () => {
                       subtitle={subtitle}
                       logo={logo}
                       platform="facebook"
+                      patternScale={pattern.scale}
                     />
                     
                     <PlatformPreview 
@@ -218,6 +222,7 @@ const OGImageGenerator = () => {
                       subtitle={subtitle}
                       logo={logo}
                       platform="discord"
+                      patternScale={pattern.scale}
                     />
                   </div>
                 </div>

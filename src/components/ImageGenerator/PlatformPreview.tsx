@@ -15,6 +15,7 @@ interface PlatformPreviewProps {
   logo?: string;
   backgroundImage?: string;
   platform: keyof typeof PLATFORM_DIMENSIONS;
+  patternScale?: number;
 }
 
 const PlatformPreview = memo(({
@@ -25,7 +26,8 @@ const PlatformPreview = memo(({
   subtitle,
   logo,
   backgroundImage,
-  platform
+  platform,
+  patternScale = 20
 }: PlatformPreviewProps) => {
   const { width, height, label } = PLATFORM_DIMENSIONS[platform];
 
@@ -245,7 +247,7 @@ const PlatformPreview = memo(({
             style={{ 
               background: background,
               backgroundImage: backgroundImage ? `url(${backgroundImage})` : pattern,
-              backgroundSize: backgroundImage ? 'cover' : 'auto',
+              backgroundSize: backgroundImage ? 'cover' : `${patternScale * 2}px`,
               backgroundPosition: 'center',
               backgroundBlendMode: backgroundImage ? 'darken' : 'normal',
             } as React.CSSProperties}

@@ -1,3 +1,4 @@
+
 import { memo, useRef } from "react";
 import { PLATFORM_DIMENSIONS } from "@/lib/pattern-utils";
 import { Card, CardContent } from "@/components/ui/card";
@@ -244,7 +245,7 @@ const PlatformPreview = memo(({
             style={{ 
               background: background,
               backgroundImage: backgroundImage ? `url(${backgroundImage})` : pattern,
-              backgroundSize: backgroundImage ? 'cover' : 'auto', 
+              backgroundSize: backgroundImage ? 'cover' : 'auto',
               backgroundPosition: 'center',
               backgroundBlendMode: backgroundImage ? 'darken' : 'normal',
             } as React.CSSProperties}

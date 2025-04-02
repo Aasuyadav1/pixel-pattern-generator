@@ -13,6 +13,7 @@ interface PlatformPreviewProps {
   title: string;
   subtitle: string;
   logo?: string;
+  backgroundImage?: string;
   platform: keyof typeof PLATFORM_DIMENSIONS;
 }
 
@@ -23,6 +24,7 @@ const PlatformPreview = memo(({
   title,
   subtitle,
   logo,
+  backgroundImage,
   platform
 }: PlatformPreviewProps) => {
   const { width, height, label } = PLATFORM_DIMENSIONS[platform];
@@ -50,111 +52,141 @@ const PlatformPreview = memo(({
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, width, height);
       
-      // Create temporary image for the pattern
-      const patternImg = new Image();
-      patternImg.onload = () => {
-        const patternCanvas = document.createElement('canvas');
-        patternCanvas.width = width;
-        patternCanvas.height = height;
-        const patternCtx = patternCanvas.getContext('2d');
-        
-        if (patternCtx) {
-          const pattern = patternCtx.createPattern(patternImg, 'repeat');
-          if (pattern) {
-            patternCtx.fillStyle = pattern;
-            patternCtx.fillRect(0, 0, width, height);
-            ctx.drawImage(patternCanvas, 0, 0);
-          }
+      // If there's a background image, draw it first
+      if (backgroundImage) {
+        const bgImg = new Image();
+        bgImg.crossOrigin = "anonymous";
+        bgImg.onload = () => {
+          // Draw the background image with an overlay
+          ctx.globalAlpha = 0.3; // Semi-transparent
+          ctx.drawImage(bgImg, 0, 0, width, height);
+          ctx.globalAlpha = 1.0;
           
-          // Draw the content
-          // Draw title
-          ctx.font = `bold ${width * 0.05}px Inter, sans-serif`;
-          ctx.fillStyle = 'white';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
+          // Add a dark overlay
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+          ctx.fillRect(0, 0, width, height);
           
-          // Split title into multiple lines if needed
-          const titleLines = wrapText(ctx, title, width * 0.8, width * 0.05);
-          let titleY = height * 0.4;
-          if (logo) titleY = height * 0.5;
-          
-          titleLines.forEach((line, i) => {
-            ctx.fillText(line, width / 2, titleY + (i * width * 0.06));
-          });
-          
-          // Draw subtitle
-          ctx.font = `${width * 0.025}px Inter, sans-serif`;
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-          
-          const subtitleLines = wrapText(ctx, subtitle, width * 0.7, width * 0.025);
-          let subtitleY = titleY + (titleLines.length * width * 0.06) + width * 0.04;
-          
-          subtitleLines.forEach((line, i) => {
-            ctx.fillText(line, width / 2, subtitleY + (i * width * 0.035));
-          });
-          
-          // Draw logo if exists
-          if (logo) {
-            const logoImg = new Image();
-            logoImg.onload = () => {
-              const logoMaxHeight = height * 0.15;
-              const logoMaxWidth = width * 0.3;
-              
-              let logoWidth = logoImg.width;
-              let logoHeight = logoImg.height;
-              
-              if (logoWidth > logoMaxWidth) {
-                logoHeight = (logoHeight * logoMaxWidth) / logoWidth;
-                logoWidth = logoMaxWidth;
-              }
-              
-              if (logoHeight > logoMaxHeight) {
-                logoWidth = (logoWidth * logoMaxHeight) / logoHeight;
-                logoHeight = logoMaxHeight;
-              }
-              
-              const logoX = (width - logoWidth) / 2;
-              const logoY = height * 0.25;
-              
-              ctx.drawImage(logoImg, logoX, logoY, logoWidth, logoHeight);
-              
-              // Download the image
-              finishDownload(canvas);
-            };
-            logoImg.src = logo;
-          } else {
-            // Download the image
-            finishDownload(canvas);
-          }
-        }
-      };
-      
-      // Create a data URL from the div's background
-      const bgCanvas = document.createElement('canvas');
-      bgCanvas.width = 10;
-      bgCanvas.height = 10;
-      const bgCtx = bgCanvas.getContext('2d');
-      if (bgCtx) {
-        bgCtx.fillStyle = 'transparent';
-        bgCtx.fillRect(0, 0, 10, 10);
+          // Continue with the rest of the drawing
+          continueDrawing();
+        };
+        bgImg.onerror = () => {
+          console.error("Error loading background image");
+          // Continue drawing without the background image
+          continueDrawing();
+        };
+        bgImg.src = backgroundImage;
+      } else {
+        // No background image, continue with pattern
+        continueDrawing();
       }
       
-      // Extract pattern from the computed style
-      const computedStyle = window.getComputedStyle(div);
-      const bgImage = computedStyle.backgroundImage;
-      
-      // If we have a pattern
-      if (bgImage && bgImage !== 'none') {
-        const patternUrlMatch = bgImage.match(/url\("([^"]+)"\)/);
-        if (patternUrlMatch && patternUrlMatch[1]) {
-          patternImg.src = patternUrlMatch[1];
+      function continueDrawing() {
+        // Create temporary image for the pattern
+        const patternImg = new Image();
+        patternImg.onload = () => {
+          const patternCanvas = document.createElement('canvas');
+          patternCanvas.width = width;
+          patternCanvas.height = height;
+          const patternCtx = patternCanvas.getContext('2d');
+          
+          if (patternCtx) {
+            const pattern = patternCtx.createPattern(patternImg, 'repeat');
+            if (pattern) {
+              patternCtx.fillStyle = pattern;
+              patternCtx.fillRect(0, 0, width, height);
+              ctx.drawImage(patternCanvas, 0, 0);
+            }
+            
+            // Draw the content
+            // Draw title
+            ctx.font = `bold ${width * 0.05}px Inter, sans-serif`;
+            ctx.fillStyle = 'white';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Split title into multiple lines if needed
+            const titleLines = wrapText(ctx, title, width * 0.8, width * 0.05);
+            let titleY = height * 0.4;
+            if (logo) titleY = height * 0.5;
+            
+            titleLines.forEach((line, i) => {
+              ctx.fillText(line, width / 2, titleY + (i * width * 0.06));
+            });
+            
+            // Draw subtitle
+            ctx.font = `${width * 0.025}px Inter, sans-serif`;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            
+            const subtitleLines = wrapText(ctx, subtitle, width * 0.7, width * 0.025);
+            let subtitleY = titleY + (titleLines.length * width * 0.06) + width * 0.04;
+            
+            subtitleLines.forEach((line, i) => {
+              ctx.fillText(line, width / 2, subtitleY + (i * width * 0.035));
+            });
+            
+            // Draw logo if exists
+            if (logo) {
+              const logoImg = new Image();
+              logoImg.onload = () => {
+                const logoMaxHeight = height * 0.15;
+                const logoMaxWidth = width * 0.3;
+                
+                let logoWidth = logoImg.width;
+                let logoHeight = logoImg.height;
+                
+                if (logoWidth > logoMaxWidth) {
+                  logoHeight = (logoHeight * logoMaxWidth) / logoWidth;
+                  logoWidth = logoMaxWidth;
+                }
+                
+                if (logoHeight > logoMaxHeight) {
+                  logoWidth = (logoWidth * logoMaxHeight) / logoHeight;
+                  logoHeight = logoMaxHeight;
+                }
+                
+                const logoX = (width - logoWidth) / 2;
+                const logoY = height * 0.25;
+                
+                ctx.drawImage(logoImg, logoX, logoY, logoWidth, logoHeight);
+                
+                // Download the image
+                finishDownload(canvas);
+              };
+              logoImg.src = logo;
+            } else {
+              // Download the image
+              finishDownload(canvas);
+            }
+          }
+        };
+        
+        // Create a data URL from the div's background
+        const bgCanvas = document.createElement('canvas');
+        bgCanvas.width = 10;
+        bgCanvas.height = 10;
+        const bgCtx = bgCanvas.getContext('2d');
+        if (bgCtx) {
+          bgCtx.fillStyle = 'transparent';
+          bgCtx.fillRect(0, 0, 10, 10);
+        }
+        
+        // Extract pattern from the computed style
+        const computedStyle = window.getComputedStyle(div);
+        const bgImage = computedStyle.backgroundImage;
+        
+        // If we have a pattern
+        if (bgImage && bgImage !== 'none') {
+          const patternUrlMatch = bgImage.match(/url\("([^"]+)"\)/);
+          if (patternUrlMatch && patternUrlMatch[1]) {
+            patternImg.src = patternUrlMatch[1];
+          } else {
+            // No pattern, just proceed
+            finishDownload(canvas);
+          }
         } else {
           // No pattern, just proceed
           finishDownload(canvas);
         }
-      } else {
-        // No pattern, just proceed
-        finishDownload(canvas);
       }
     } catch (error) {
       console.error("Error generating canvas:", error);
@@ -191,6 +223,10 @@ const PlatformPreview = memo(({
     toast.success(`${label} image downloaded`);
   };
 
+  // Get backgroundImage from the canvasRef if available
+  const divBackgroundImage = canvasRef.current?.getAttribute('data-background-image');
+  const backgroundImageToUse = backgroundImage || divBackgroundImage;
+
   return (
     <Card className="border-white/10 overflow-hidden h-full">
       <div className="glass-morphism p-4 flex flex-col items-center gap-4 h-full">
@@ -215,10 +251,16 @@ const PlatformPreview = memo(({
           <div 
             className="aspect-[1200/630] w-full relative flex items-center justify-center"
             style={{ 
-              backgroundImage: pattern,
-              background: background,
+              backgroundImage: backgroundImageToUse ? `url(${backgroundImageToUse})` : pattern,
+              background: backgroundImageToUse ? 'rgba(0,0,0,0.6)' : background,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundBlendMode: backgroundImageToUse ? 'darken' : 'normal',
             } as React.CSSProperties}
           >
+            {backgroundImageToUse && (
+              <div className="absolute inset-0 bg-black/60"></div>
+            )}
             <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
               {logo && (
                 <div className="mb-2 max-w-[30%] max-h-[15%]">

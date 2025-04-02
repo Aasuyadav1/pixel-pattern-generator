@@ -170,10 +170,196 @@ export interface Template {
     title: string;
     subtitle: string;
     logo?: string;
+    backgroundImage?: string;
   };
 }
 
+const PLACEHOLDER_IMAGES = {
+  nature: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&auto=format&fit=crop",
+  tech: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop",
+  business: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&auto=format&fit=crop",
+  productivity: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&auto=format&fit=crop",
+  coding: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&auto=format&fit=crop",
+  city: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&auto=format&fit=crop",
+  architecture: "https://images.unsplash.com/photo-1486718448742-163732cd1544?w=800&auto=format&fit=crop",
+  mountain: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&auto=format&fit=crop"
+};
+
 export const TEMPLATES: Template[] = [
+  {
+    id: "modern",
+    name: "Modern",
+    pattern: {
+      background: "linear-gradient(60deg, #29323c 0%, #485563 100%)",
+      patternOpacity: 0.3,
+      patternColor: "#ffffff",
+      pattern: "graph-paper",
+      patternScale: 24,
+    },
+    content: {
+      title: "Modern Design System",
+      subtitle: "Clean, minimal, and straightforward",
+    },
+  },
+  {
+    id: "vibrant",
+    name: "Vibrant",
+    pattern: {
+      background: "linear-gradient(120deg, #f093fb 0%, #f5576c 100%)",
+      patternOpacity: 0.5,
+      patternColor: "#ffffff",
+      pattern: "bubbles",
+      patternScale: 20,
+    },
+    content: {
+      title: "Vibrant & Bold",
+      subtitle: "Stand out with vibrant colors",
+    },
+  },
+  {
+    id: "basic",
+    name: "Basic",
+    pattern: {
+      background: "#1e293b",
+      patternOpacity: 0.5,
+      patternColor: "#334155",
+      pattern: "diagonal-lines",
+      patternScale: 12,
+    },
+    content: {
+      title: "Basic Dark Theme",
+      subtitle: "Simple and effective dark mode visuals",
+    },
+  },
+  {
+    id: "tech-image",
+    name: "Tech Image",
+    pattern: {
+      background: "linear-gradient(rgba(12, 12, 24, 0.8), rgba(12, 12, 24, 0.9))",
+      patternOpacity: 0.2,
+      patternColor: "#ffffff",
+      pattern: "circuit-board",
+      patternScale: 18,
+    },
+    content: {
+      title: "Technology Solutions",
+      subtitle: "Innovative tech for modern problems",
+      backgroundImage: PLACEHOLDER_IMAGES.tech
+    },
+  },
+  {
+    id: "nature",
+    name: "Nature",
+    pattern: {
+      background: "linear-gradient(rgba(5, 32, 15, 0.7), rgba(5, 32, 15, 0.8))",
+      patternOpacity: 0.2,
+      patternColor: "#ffffff",
+      pattern: "diagonal-stripes",
+      patternScale: 20,
+    },
+    content: {
+      title: "Natural Beauty",
+      subtitle: "Connect with the world around you",
+      backgroundImage: PLACEHOLDER_IMAGES.nature
+    },
+  },
+  {
+    id: "corporate",
+    name: "Corporate",
+    pattern: {
+      background: "linear-gradient(rgba(20, 30, 60, 0.8), rgba(20, 30, 60, 0.9))",
+      patternOpacity: 0.15,
+      patternColor: "#ffffff",
+      pattern: "plus",
+      patternScale: 16,
+    },
+    content: {
+      title: "Business Growth",
+      subtitle: "Professional solutions for your company",
+      backgroundImage: PLACEHOLDER_IMAGES.business,
+      logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+    },
+  },
+  {
+    id: "productivity",
+    name: "Productivity",
+    pattern: {
+      background: "linear-gradient(rgba(25, 25, 40, 0.8), rgba(25, 25, 40, 0.9))",
+      patternOpacity: 0.2,
+      patternColor: "#ffffff",
+      pattern: "architect",
+      patternScale: 20,
+    },
+    content: {
+      title: "Boost Your Productivity",
+      subtitle: "Tools and tips for efficient workflows",
+      backgroundImage: PLACEHOLDER_IMAGES.productivity
+    },
+  },
+  {
+    id: "developer",
+    name: "Developer",
+    pattern: {
+      background: "linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.95))",
+      patternOpacity: 0.3,
+      patternColor: "#00ff00",
+      pattern: "dots",
+      patternScale: 16,
+    },
+    content: {
+      title: "Developer Tools",
+      subtitle: "Resources for modern web development",
+      backgroundImage: PLACEHOLDER_IMAGES.coding
+    },
+  },
+  {
+    id: "city",
+    name: "City",
+    pattern: {
+      background: "linear-gradient(rgba(0, 0, 20, 0.7), rgba(0, 0, 20, 0.8))",
+      patternOpacity: 0.15,
+      patternColor: "#ffffff",
+      pattern: "wiggle",
+      patternScale: 18,
+    },
+    content: {
+      title: "Urban Exploration",
+      subtitle: "Discover the beauty of city landscapes",
+      backgroundImage: PLACEHOLDER_IMAGES.city
+    },
+  },
+  {
+    id: "architecture",
+    name: "Architecture",
+    pattern: {
+      background: "linear-gradient(rgba(30, 30, 30, 0.8), rgba(30, 30, 30, 0.9))",
+      patternOpacity: 0.2,
+      patternColor: "#ffffff",
+      pattern: "diagonal-lines",
+      patternScale: 16,
+    },
+    content: {
+      title: "Architectural Wonders",
+      subtitle: "Exploring remarkable structures and designs",
+      backgroundImage: PLACEHOLDER_IMAGES.architecture
+    },
+  },
+  {
+    id: "adventure",
+    name: "Adventure",
+    pattern: {
+      background: "linear-gradient(rgba(20, 40, 60, 0.7), rgba(20, 40, 60, 0.8))",
+      patternOpacity: 0.25,
+      patternColor: "#ffffff",
+      pattern: "zigzag",
+      patternScale: 20,
+    },
+    content: {
+      title: "Mountain Adventures",
+      subtitle: "Explore the heights of natural beauty",
+      backgroundImage: PLACEHOLDER_IMAGES.mountain
+    },
+  },
   {
     id: 'minimal',
     name: 'Minimal',

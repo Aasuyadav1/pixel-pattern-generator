@@ -16,6 +16,7 @@ import PatternSelector from "./PatternSelector";
 import ContentEditor from "./ContentEditor";
 import PlatformPreview from "./PlatformPreview";
 import TemplateSelector from "./TemplateSelector";
+import WebsiteUrlGenerator from "./WebsiteUrlGenerator";
 import { 
   PatternSettings, 
   defaultPatternSettings, 
@@ -51,6 +52,14 @@ const OGImageGenerator = () => {
     setSubtitle("Generate perfect social media previews in seconds");
     setLogo(undefined);
     toast.success("Reset to default settings");
+  };
+
+  const handleWebsiteContentGenerated = (newTitle: string, newSubtitle: string, newLogo?: string) => {
+    setTitle(newTitle);
+    setSubtitle(newSubtitle);
+    if (newLogo) {
+      setLogo(newLogo);
+    }
   };
 
   return (
@@ -91,6 +100,14 @@ const OGImageGenerator = () => {
           <div className="max-w-screen-xl mx-auto">
             <h2 className="text-lg font-medium mb-4">Templates</h2>
             <TemplateSelector onSelectTemplate={handleTemplateSelect} />
+          </div>
+        </div>
+
+        {/* Website URL Generator */}
+        <div className="p-6 pt-3 pb-0">
+          <div className="max-w-screen-xl mx-auto">
+            <h2 className="text-lg font-medium mb-4">Quick Content Generator</h2>
+            <WebsiteUrlGenerator onContentGenerated={handleWebsiteContentGenerated} />
           </div>
         </div>
 

@@ -28,10 +28,24 @@ const TemplateSelector = ({ onSelectTemplate }: TemplateSelectorProps) => {
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {TEMPLATES.map((template) => {
-            const patternStyle = {
-              backgroundImage: generatePatternUrl(template.pattern),
-              background: template.pattern.background,
+            // Generate pattern style with proper error handling
+            let patternStyle: React.CSSProperties = {
+              background: template.pattern.background || '#121212',
             };
+            
+            try {
+              patternStyle.backgroundImage = generatePatternUrl(template.pattern);
+            } catch (error) {
+              console.error("Error generating pattern for template:", template.id, error);
+              // Fallback to just the background if pattern generation fails
+            }
+            
+            // Add background image if present
+            if (template.content.backgroundImage) {
+              patternStyle.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url(${template.content.backgroundImage})`;
+              patternStyle.backgroundSize = 'cover';
+              patternStyle.backgroundPosition = 'center';
+            }
 
             return (
               <CarouselItem key={template.id} className="pl-2 md:pl-4 md:basis-1/3 lg:basis-1/4">
@@ -41,7 +55,7 @@ const TemplateSelector = ({ onSelectTemplate }: TemplateSelectorProps) => {
                 >
                   <div 
                     className="h-32 relative"
-                    style={patternStyle as React.CSSProperties}
+                    style={patternStyle}
                   >
                     <div className="absolute inset-0 flex flex-col items-center justify-center p-2 text-center">
                       {template.content.logo && (

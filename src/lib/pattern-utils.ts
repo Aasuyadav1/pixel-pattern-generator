@@ -1,3 +1,4 @@
+
 // Pattern types
 export type PatternType = 'grid' | 'dots' | 'graph' | 'diagonal' | 'honeycomb' | 'noise';
 
@@ -128,6 +129,11 @@ const generateNoiseDots = (width: number, height: number, count: number, color: 
 
 // Helper function to parse color and apply opacity
 const parseColorWithOpacity = (color: string, opacity: number): string => {
+  // Check if color is undefined or null, and provide a fallback
+  if (color === undefined || color === null) {
+    return `rgba(255, 255, 255, ${opacity})`;
+  }
+  
   // Handle hex
   if (color.startsWith('#')) {
     const r = parseInt(color.slice(1, 3), 16);
@@ -190,11 +196,11 @@ export const TEMPLATES: Template[] = [
     id: "modern",
     name: "Modern",
     pattern: {
-      background: "linear-gradient(60deg, #29323c 0%, #485563 100%)",
-      patternOpacity: 0.3,
-      patternColor: "#ffffff",
-      pattern: "graph-paper",
-      patternScale: 24,
+      type: 'grid',
+      color: '#ffffff',
+      opacity: 0.3,
+      scale: 24,
+      background: "linear-gradient(60deg, #29323c 0%, #485563 100%)"
     },
     content: {
       title: "Modern Design System",
@@ -205,11 +211,11 @@ export const TEMPLATES: Template[] = [
     id: "vibrant",
     name: "Vibrant",
     pattern: {
-      background: "linear-gradient(120deg, #f093fb 0%, #f5576c 100%)",
-      patternOpacity: 0.5,
-      patternColor: "#ffffff",
-      pattern: "bubbles",
-      patternScale: 20,
+      type: 'dots',
+      color: '#ffffff',
+      opacity: 0.5,
+      scale: 20,
+      background: "linear-gradient(120deg, #f093fb 0%, #f5576c 100%)"
     },
     content: {
       title: "Vibrant & Bold",
@@ -220,11 +226,11 @@ export const TEMPLATES: Template[] = [
     id: "basic",
     name: "Basic",
     pattern: {
-      background: "#1e293b",
-      patternOpacity: 0.5,
-      patternColor: "#334155",
-      pattern: "diagonal-lines",
-      patternScale: 12,
+      type: 'diagonal',
+      color: '#334155',
+      opacity: 0.5,
+      scale: 12,
+      background: "#1e293b"
     },
     content: {
       title: "Basic Dark Theme",
@@ -235,11 +241,11 @@ export const TEMPLATES: Template[] = [
     id: "tech-image",
     name: "Tech Image",
     pattern: {
-      background: "linear-gradient(rgba(12, 12, 24, 0.8), rgba(12, 12, 24, 0.9))",
-      patternOpacity: 0.2,
-      patternColor: "#ffffff",
-      pattern: "circuit-board",
-      patternScale: 18,
+      type: 'graph',
+      color: '#ffffff',
+      opacity: 0.2,
+      scale: 18,
+      background: "linear-gradient(rgba(12, 12, 24, 0.8), rgba(12, 12, 24, 0.9))"
     },
     content: {
       title: "Technology Solutions",
@@ -251,11 +257,11 @@ export const TEMPLATES: Template[] = [
     id: "nature",
     name: "Nature",
     pattern: {
-      background: "linear-gradient(rgba(5, 32, 15, 0.7), rgba(5, 32, 15, 0.8))",
-      patternOpacity: 0.2,
-      patternColor: "#ffffff",
-      pattern: "diagonal-stripes",
-      patternScale: 20,
+      type: 'diagonal',
+      color: '#ffffff',
+      opacity: 0.2,
+      scale: 20,
+      background: "linear-gradient(rgba(5, 32, 15, 0.7), rgba(5, 32, 15, 0.8))"
     },
     content: {
       title: "Natural Beauty",
@@ -267,11 +273,11 @@ export const TEMPLATES: Template[] = [
     id: "corporate",
     name: "Corporate",
     pattern: {
-      background: "linear-gradient(rgba(20, 30, 60, 0.8), rgba(20, 30, 60, 0.9))",
-      patternOpacity: 0.15,
-      patternColor: "#ffffff",
-      pattern: "plus",
-      patternScale: 16,
+      type: 'grid',
+      color: '#ffffff',
+      opacity: 0.15,
+      scale: 16,
+      background: "linear-gradient(rgba(20, 30, 60, 0.8), rgba(20, 30, 60, 0.9))"
     },
     content: {
       title: "Business Growth",
@@ -284,11 +290,11 @@ export const TEMPLATES: Template[] = [
     id: "productivity",
     name: "Productivity",
     pattern: {
-      background: "linear-gradient(rgba(25, 25, 40, 0.8), rgba(25, 25, 40, 0.9))",
-      patternOpacity: 0.2,
-      patternColor: "#ffffff",
-      pattern: "architect",
-      patternScale: 20,
+      type: 'graph',
+      color: '#ffffff',
+      opacity: 0.2,
+      scale: 20,
+      background: "linear-gradient(rgba(25, 25, 40, 0.8), rgba(25, 25, 40, 0.9))"
     },
     content: {
       title: "Boost Your Productivity",
@@ -300,11 +306,11 @@ export const TEMPLATES: Template[] = [
     id: "developer",
     name: "Developer",
     pattern: {
-      background: "linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.95))",
-      patternOpacity: 0.3,
-      patternColor: "#00ff00",
-      pattern: "dots",
-      patternScale: 16,
+      type: 'dots',
+      color: '#00ff00',
+      opacity: 0.3,
+      scale: 16,
+      background: "linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.95))"
     },
     content: {
       title: "Developer Tools",
@@ -316,11 +322,11 @@ export const TEMPLATES: Template[] = [
     id: "city",
     name: "City",
     pattern: {
-      background: "linear-gradient(rgba(0, 0, 20, 0.7), rgba(0, 0, 20, 0.8))",
-      patternOpacity: 0.15,
-      patternColor: "#ffffff",
-      pattern: "wiggle",
-      patternScale: 18,
+      type: 'honeycomb',
+      color: '#ffffff',
+      opacity: 0.15,
+      scale: 18,
+      background: "linear-gradient(rgba(0, 0, 20, 0.7), rgba(0, 0, 20, 0.8))"
     },
     content: {
       title: "Urban Exploration",
@@ -332,11 +338,11 @@ export const TEMPLATES: Template[] = [
     id: "architecture",
     name: "Architecture",
     pattern: {
-      background: "linear-gradient(rgba(30, 30, 30, 0.8), rgba(30, 30, 30, 0.9))",
-      patternOpacity: 0.2,
-      patternColor: "#ffffff",
-      pattern: "diagonal-lines",
-      patternScale: 16,
+      type: 'diagonal',
+      color: '#ffffff',
+      opacity: 0.2,
+      scale: 16,
+      background: "linear-gradient(rgba(30, 30, 30, 0.8), rgba(30, 30, 30, 0.9))"
     },
     content: {
       title: "Architectural Wonders",
@@ -348,11 +354,11 @@ export const TEMPLATES: Template[] = [
     id: "adventure",
     name: "Adventure",
     pattern: {
-      background: "linear-gradient(rgba(20, 40, 60, 0.7), rgba(20, 40, 60, 0.8))",
-      patternOpacity: 0.25,
-      patternColor: "#ffffff",
-      pattern: "zigzag",
-      patternScale: 20,
+      type: 'honeycomb',
+      color: '#ffffff',
+      opacity: 0.25,
+      scale: 20,
+      background: "linear-gradient(rgba(20, 40, 60, 0.7), rgba(20, 40, 60, 0.8))"
     },
     content: {
       title: "Mountain Adventures",

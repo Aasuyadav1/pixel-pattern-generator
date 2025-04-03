@@ -18,6 +18,7 @@ import PlatformPreview from "./PlatformPreview";
 import TemplateSelector from "./TemplateSelector";
 import WebsiteUrlGenerator from "./WebsiteUrlGenerator";
 import ThemeSwitcher from "./ThemeSwitcher";
+import LandingIntro from "./LandingIntro";
 import { 
   PatternSettings, 
   defaultPatternSettings, 
@@ -28,6 +29,7 @@ import {
 import GradientSelector from "./GradientSelector";
 
 const OGImageGenerator = () => {
+  const [showLanding, setShowLanding] = useState(true);
   const [showSidebar, setShowSidebar] = useState(true);
   const [pattern, setPattern] = useState<PatternSettings>(defaultPatternSettings);
   const [title, setTitle] = useState("Create Beautiful OG Images");
@@ -72,6 +74,23 @@ const OGImageGenerator = () => {
       setLogo(newLogo);
     }
   };
+
+  // Skip landing page if user has visited before
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('ogImageGeneratorVisited');
+    if (hasVisited) {
+      setShowLanding(false);
+    }
+  }, []);
+
+  const handleGetStarted = () => {
+    setShowLanding(false);
+    localStorage.setItem('ogImageGeneratorVisited', 'true');
+  };
+
+  if (showLanding) {
+    return <LandingIntro onGetStarted={handleGetStarted} />;
+  }
 
   return (
     <div className="flex min-h-screen bg-background">

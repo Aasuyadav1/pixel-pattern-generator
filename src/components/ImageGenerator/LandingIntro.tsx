@@ -1,14 +1,13 @@
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Wand2, MonitorSmartphone, Download, Palette, ImagePlus } from "lucide-react";
+import { Wand2, MonitorSmartphone, Download, Palette, ImagePlus, ChevronDown } from "lucide-react";
 
 const LandingIntro = ({ onGetStarted }: { onGetStarted: () => void }) => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-10">
+    <div className="w-full">
       {/* Hero Section */}
-      <div className="max-w-4xl mx-auto text-center mb-12 animate-fade-in">
+      <div className="max-w-4xl mx-auto text-center mb-12 animate-fade-in py-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">
           Create Beautiful OG Images in Seconds
         </h1>
@@ -44,7 +43,7 @@ const LandingIntro = ({ onGetStarted }: { onGetStarted: () => void }) => {
       </div>
 
       {/* CTA Section */}
-      <div className="w-full max-w-3xl mx-auto animate-scale-in">
+      <div className="w-full max-w-3xl mx-auto animate-scale-in mb-12">
         <Card className="border border-white/10 glass-morphism">
           <CardContent className="pt-6 pb-4 px-6">
             <div className="flex flex-col md:flex-row items-center justify-between">
@@ -63,6 +62,10 @@ const LandingIntro = ({ onGetStarted }: { onGetStarted: () => void }) => {
           </CardContent>
         </Card>
       </div>
+      
+      <div className="flex justify-center animate-bounce mb-6">
+        <ChevronDown className="h-8 w-8 text-muted-foreground" />
+      </div>
     </div>
   );
 };
@@ -73,7 +76,7 @@ const FeatureCard = ({ icon, title, description }: {
   description: string 
 }) => {
   return (
-    <Card className="border border-white/10 glass-morphism h-full">
+    <Card className="border border-white/10 glass-morphism h-full hover:scale-105 transition-transform duration-300">
       <CardHeader>
         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
           {icon}

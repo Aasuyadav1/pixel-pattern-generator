@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,7 +14,6 @@ import {
 import { toast } from "sonner";
 import PatternSelector from "./PatternSelector";
 import ContentEditor from "./ContentEditor";
-import PlatformPreview from "./PlatformPreview";
 import TemplateSelector from "./TemplateSelector";
 import WebsiteUrlGenerator from "./WebsiteUrlGenerator";
 import ThemeSwitcher from "./ThemeSwitcher";
@@ -28,6 +26,7 @@ import {
   TEMPLATES
 } from "@/lib/pattern-utils";
 import GradientSelector from "./GradientSelector";
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 
 const OGImageGenerator = () => {
   const [showSidebar, setShowSidebar] = useState(true);
@@ -139,53 +138,53 @@ const OGImageGenerator = () => {
 
         {/* Main content section */}
         <div className="p-6" ref={editorRef}>
-          {/* Template Carousel - Full Width */}
-          <div className="pb-0">
-            <div className="max-w-screen-xl mx-auto">
-              <h2 className="text-lg font-medium mb-4">Templates</h2>
-              <TemplateSelector onSelectTemplate={handleTemplateSelect} />
-            </div>
-          </div>
-
-          {/* Main editor + preview area */}
-          <div className="flex-1 overflow-y-auto mt-6">
-            <div className="max-w-screen-xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                {/* Editor - Left panel on desktop, toggleable on mobile */}
-                <div className={`${!showSidebar && 'hidden'} lg:block lg:col-span-5`}>
-                  <div className="glass-morphism rounded-lg border border-white/10 mb-6 overflow-hidden">
-                    <Tabs value={activeTab} onValueChange={setActiveTab}>
-                      <TabsList className="w-full grid grid-cols-2">
-                        <TabsTrigger value="design">Design</TabsTrigger>
-                        <TabsTrigger value="content">Content</TabsTrigger>
-                      </TabsList>
+          <div className="max-w-screen-xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              {/* Editor - Left panel on desktop, toggleable on mobile */}
+              <div className={`${!showSidebar && 'hidden'} lg:block lg:col-span-5`}>
+                <div className="glass-morphism rounded-lg border border-white/10 mb-6 overflow-hidden">
+                  <Tabs value={activeTab} onValueChange={setActiveTab}>
+                    <TabsList className="w-full grid grid-cols-2">
+                      <TabsTrigger value="design">Design</TabsTrigger>
+                      <TabsTrigger value="content">Content</TabsTrigger>
+                    </TabsList>
+                    
+                    <div className="p-6">
+                      <TabsContent value="design" className="mt-0 space-y-6">
+                        <PatternSelector pattern={pattern} onChange={handlePatternChange} />
+                        <GradientSelector pattern={pattern} onChange={handlePatternChange} />
+                      </TabsContent>
                       
-                      <div className="p-6">
-                        <TabsContent value="design" className="mt-0 space-y-6">
-                          <PatternSelector pattern={pattern} onChange={handlePatternChange} />
-                          <GradientSelector pattern={pattern} onChange={handlePatternChange} />
-                        </TabsContent>
-                        
-                        <TabsContent value="content" className="mt-0 space-y-6">
-                          <WebsiteUrlGenerator onContentGenerated={handleWebsiteContentGenerated} />
-                          <ContentEditor
-                            title={title}
-                            subtitle={subtitle}
-                            logo={logo}
-                            onTitleChange={setTitle}
-                            onSubtitleChange={setSubtitle}
-                            onLogoChange={setLogo}
-                          />
-                        </TabsContent>
-                      </div>
-                    </Tabs>
+                      <TabsContent value="content" className="mt-0 space-y-6">
+                        <WebsiteUrlGenerator onContentGenerated={handleWebsiteContentGenerated} />
+                        <ContentEditor
+                          title={title}
+                          subtitle={subtitle}
+                          logo={logo}
+                          onTitleChange={setTitle}
+                          onSubtitleChange={setSubtitle}
+                          onLogoChange={setLogo}
+                        />
+                      </TabsContent>
+                    </div>
+                  </Tabs>
+                </div>
+              </div>
+              
+              {/* Right side with Templates and Preview */}
+              <div className="lg:col-span-7">
+                {/* Template Section - Now on top of the preview */}
+                <div className="mb-6">
+                  <h2 className="text-lg font-medium mb-4">Templates</h2>
+                  <div className="glass-morphism rounded-lg border border-white/10 p-4">
+                    <TemplateSelector onSelectTemplate={handleTemplateSelect} />
                   </div>
                 </div>
                 
-                {/* Live preview area - Always visible */}
-                <div className="lg:col-span-7">
-                  <div className="mb-6 sticky top-24">
-                    <h2 className="text-lg font-medium mb-4">Preview</h2>
+                {/* Live preview area - Resized to be more compact */}
+                <div className="mb-6 sticky top-24">
+                  <h2 className="text-lg font-medium mb-4">Preview</h2>
+                  <div className="glass-morphism rounded-xl border border-white/10 p-4 shadow-lg">
                     <div 
                       ref={previewRef}
                       className="aspect-[1200/630] w-full rounded-lg overflow-hidden border border-white/10 shadow-xl animate-scale-in"
@@ -208,55 +207,15 @@ const OGImageGenerator = () => {
                     </div>
                   </div>
                   
-                  {/* Platform previews - Full width grid layout */}
-                  <div className="space-y-4 animate-slide-up">
-                    <h3 className="text-base font-medium mb-3">Platform Previews</h3>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-                      <PlatformPreview 
-                        canvasRef={previewRef}
-                        pattern={patternUrl}
-                        background={pattern.background}
-                        title={title}
-                        subtitle={subtitle}
-                        logo={logo}
-                        platform="twitter"
-                        patternScale={pattern.scale}
-                      />
-                      
-                      <PlatformPreview 
-                        canvasRef={previewRef}
-                        pattern={patternUrl}
-                        background={pattern.background}
-                        title={title}
-                        subtitle={subtitle}
-                        logo={logo}
-                        platform="linkedin"
-                        patternScale={pattern.scale}
-                      />
-                      
-                      <PlatformPreview 
-                        canvasRef={previewRef}
-                        pattern={patternUrl}
-                        background={pattern.background}
-                        title={title}
-                        subtitle={subtitle}
-                        logo={logo}
-                        platform="facebook"
-                        patternScale={pattern.scale}
-                      />
-                      
-                      <PlatformPreview 
-                        canvasRef={previewRef}
-                        pattern={patternUrl}
-                        background={pattern.background}
-                        title={title}
-                        subtitle={subtitle}
-                        logo={logo}
-                        platform="discord"
-                        patternScale={pattern.scale}
-                      />
-                    </div>
+                  {/* Export button for the preview */}
+                  <div className="flex justify-end mt-4">
+                    <Button
+                      variant="outline"
+                      className="gap-1.5 rounded-full"
+                    >
+                      <Download className="h-4 w-4" />
+                      <span>Export Image</span>
+                    </Button>
                   </div>
                 </div>
               </div>
